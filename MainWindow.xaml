@@ -1,0 +1,884 @@
+﻿<Window x:Class="AppGameTito.MainWindow" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppGameTito"
+        
+        mc:Ignorable="d"
+        Title="Games Tito" Height="450" Width="800" WindowState="Maximized">
+
+    <Grid Background="#16161a">
+        <Grid.RowDefinitions>
+            <!-- Linha fixa no topo -->
+            <RowDefinition Height="90" />
+            <!-- Conteúdo rolável -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Linha 0: Cabeçalho fixo -->
+        <Grid Grid.Row="0" Background="#242629">
+            <!-- seu conteúdo atual da linha 0 aqui -->
+            <!-- Criando as colunas da linha 0 -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <!-- Menu - Coluna 0 -->
+                <ColumnDefinition Width="Auto" />
+                <!-- Logo - Coluna 1 -->
+                <ColumnDefinition Width="*" />
+                <!-- Pesquisa e Usuario - Coluna 2 -->
+            </Grid.ColumnDefinitions>
+
+            <!-- MENU - Linha 0 coluna 0-->
+            <!--  ícone de menu hamburguer -->
+            <Button 
+                Content="☰"
+                FontSize="43"
+                Height="60"
+                Width="60"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Margin="40,0,0,0"
+                Background="#242629"
+                Foreground="#7f5af0"
+                Grid.Column="0" >
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#333"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <!-- Desativa a borda -->
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                        <!-- Desativa o foco do botão -->
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <!-- Deixa o cursor de mão, mas sem o efeito de hover -->
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <!-- Evento de Clique -->
+
+            <!-- Logo - Linha 0 coluna 1-->
+
+
+            <Image 
+                            Source="image/gamestito_logo.png"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" 
+                            Grid.Column="1"
+                />
+
+            <!-- Pesquisa e Usuário - Linha 0 coluna 2-->
+            <StackPanel
+         Orientation="Horizontal"
+         HorizontalAlignment="Right"
+         VerticalAlignment="Center"
+         Margin="10"
+         Grid.Column="2"
+         >
+
+                <!--
+                <TextBox 
+             Width="200"
+             Height="30"
+             Margin="10"
+             VerticalAlignment="Center"
+             HorizontalAlignment="Center"
+             Padding="0,6,0,0"
+             />
+                -->
+
+                <Grid>
+
+                    <!-- x:Name - Nome dado ao campo para programação em C# -->
+                    <TextBox
+                      x:Name="BuscaTxt"
+                      Width="200"
+                      Height="30"
+                      Margin="10"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Padding="0,6,0,0"
+                      />
+
+                    <!-- Texto que será ocultado quando digitado dentro do campo de pesquisa -->
+
+                    <!--
+                    IsHitTestVisible - Define se o controle pode ser clicado ou não. Neste caso, o controle não interage com o evento de entrada
+                    Visibility - Define a visibilidade do controle, sendo 'Visible' para torná-lo visivel
+                    -->
+                    <TextBlock 
+                        x:Name="PesquisaLbl"
+                        Text="Pesquisa..."
+                        Foreground="White"
+                        Margin="10, 0, 0, 0"
+                        VerticalAlignment="Center"
+                        Visibility="Visible"
+                        IsHitTestVisible="False"
+                        />
+                </Grid>
+
+
+
+                <Button 
+             Content="User"
+             Width="40"
+             Height="40"
+             Margin="10"
+             Background="#7f5af0"
+             Foreground="White"
+             />
+
+            </StackPanel>
+        </Grid>
+
+        <!-- Linha 1 + Linha 2 dentro de um ScrollViewer -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Linha 1: Banner -->
+                <Grid>
+                    <!-- Conteúdo do banner -->
+                    <!-- Criando as colunas da linha 1 -->
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="*" />
+
+                    </Grid.ColumnDefinitions>
+                    
+                    
+                    <Border 
+                 Grid.Column="0"
+                 Height="600"
+                 >
+
+                        <!--
+                        <TextBlock
+                     Text="Aqui seu Banner"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     FontSize="40"
+                     FontWeight="Bold"
+                     />
+                        -->
+
+                        <Image 
+                            Source="image/header-banner.png"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            />
+                    </Border>
+
+
+                </Grid>
+
+                <!-- Linha 2: Cards -->
+                <Grid Margin="40">
+                    
+                    <!-- Conteúdo dos cards -->
+                   <!-- Não tem que definir 5 colunas -->
+
+                    <StackPanel Orientation="Vertical">
+                        
+                        <!--Inserir os Botões de controle próximo e anterior-->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                            <Button Content="&lt; Anterior" Click="BntAnterior" Margin="5" />
+                            <Button Content="Próximo &gt;" Click="BntProximo" Margin="5" />
+                        </StackPanel>
+
+                        <ScrollViewer
+                            x:Name="carouselScroll"
+                            HorizontalScrollBarVisibility="Hidden"
+                            VerticalScrollBarVisibility="Disabled"
+                            Height="450"
+                            >
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <!-- Card 0 -->
+                                <StackPanel
+
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Margin="10"
+                 >
+                                    <Border
+                     Background="#242629"
+                     Width="300"
+                     Height="400"
+                     CornerRadius="10"
+                     Padding="15, 15, 15, 10"
+                     >
+
+                                        <!-- Usando Grid para comportar a imagem e o texto -->
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <!-- Definindo duas linhas, uma para a imagem e uma para o texto -->
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Imagem (vai ocupar a primeira linha) -->
+                                            <Image 
+                                Source="image/ravenfield.png"
+                                Stretch="UniformToFill"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Grid.Row="0"/>
+
+                                            <!-- Texto (vai ocupar a segunda linha) -->
+                                            <StackPanel VerticalAlignment="Bottom"  Margin="10" Grid.Row="1">
+
+                                                <Button
+                                        HorizontalAlignment="Left"
+                                        Background="#7f5af0"
+                                        >
+                                                    <TextBlock 
+                                    Text="Jogue agora"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Margin="5"/>
+
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <!-- Cor inicial do botão -->
+                                                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                                            <Setter Property="Cursor" Value="Hand"/>
+
+                                                            <!-- Trigger para mudar a cor do botão ao passar o mouse -->
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="#2cb67d"/>
+                                                                    <!-- Cor de fundo quando mouse está sobre o botão -->
+                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                    <!-- Cor do texto quando mouse está sobre o botão -->
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+
+                                                <TextBlock 
+                                    Text="Estratégia, Ação, Simulação"
+                                    Foreground="White"
+                                    Margin="5"/>
+                                            </StackPanel>
+                                        </Grid>
+
+
+                                    </Border>
+
+                                </StackPanel>
+
+                                <!-- Card 1 -->
+                                <StackPanel
+
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Margin="10"
+                 >
+                                    <Border
+                     Background="#242629"
+                     Width="300"
+                     Height="400"
+                     CornerRadius="10"
+                     Padding="15, 15, 15, 10"
+                     >
+                                        <!-- Usando Grid para comportar a imagem e o texto -->
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <!-- Definindo duas linhas, uma para a imagem e uma para o texto -->
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Imagem (vai ocupar a primeira linha) -->
+
+                                            <Image 
+                                Source="image/asistersjourney.png"
+                                Stretch="UniformToFill"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+
+                                            <!-- Texto (vai ocupar a segunda linha) -->
+                                            <StackPanel VerticalAlignment="Bottom"  Margin="10" Grid.Row="1">
+                                                <TextBlock 
+                                    Text="Download"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Margin="5"/>
+
+                                                <TextBlock 
+                                    Text="Estratégia, Ação, Simulação"
+                                    Foreground="White"
+                                    Margin="5"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+
+                                <!-- Card 2 -->
+                                <StackPanel
+
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Margin="10"
+                 >
+                                    <Border
+                     Background="#242629"
+                     Width="300"
+                     Height="400"
+                     CornerRadius="10"
+                     Padding="15, 15, 15, 10"
+                     >
+                                        <!-- Usando Grid para comportar a imagem e o texto -->
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <!-- Definindo duas linhas, uma para a imagem e uma para o texto -->
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Imagem (vai ocupar a primeira linha) -->
+
+                                            <Image 
+                            Source="image/heartbound.png"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            />
+
+                                            <!-- Texto (vai ocupar a segunda linha) -->
+                                            <StackPanel VerticalAlignment="Bottom"  Margin="10" Grid.Row="1">
+                                                <TextBlock 
+                                    Text="Download"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Margin="5"/>
+
+                                                <TextBlock 
+                                    Text="Estratégia, Ação, Simulação"
+                                    Foreground="White"
+                                    Margin="5"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                    </Border>
+
+                                </StackPanel>
+
+                                <!-- Card 3 -->
+                                <StackPanel
+
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Margin="10"
+                 >
+                                    <Border
+                     Background="#242629"
+                     Width="300"
+                     Height="400"
+                     CornerRadius="10"
+                     Padding="15, 15, 15, 10"
+                     >
+                                        <!-- Usando Grid para comportar a imagem e o texto -->
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <!-- Definindo duas linhas, uma para a imagem e uma para o texto -->
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Imagem (vai ocupar a primeira linha) -->
+
+
+                                            <Image 
+                            Source="image/crosscode.png"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            />
+
+                                            <!-- Texto (vai ocupar a segunda linha) -->
+                                            <StackPanel VerticalAlignment="Bottom"  Margin="10" Grid.Row="1">
+                                                <TextBlock 
+                                    Text="Download"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Margin="5"/>
+
+                                                <TextBlock 
+                                    Text="Estratégia, Ação, Simulação"
+                                    Foreground="White"
+                                    Margin="5"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                    </Border>
+
+                                </StackPanel>
+
+                                <!-- Card 4 -->
+                                <StackPanel
+
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Margin="10"
+                 >
+                                    <Border
+                     Background="#242629"
+                     Width="300"
+                     Height="400"
+                     CornerRadius="10"
+                     Padding="15, 15, 15, 10"
+                     >
+                                        <!-- Usando Grid para comportar a imagem e o texto -->
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <!-- Definindo duas linhas, uma para a imagem e uma para o texto -->
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Imagem (vai ocupar a primeira linha) -->
+
+
+                                            <Image 
+                            Source="image/sallyface.png"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            />
+
+                                            <!-- Texto (vai ocupar a segunda linha) -->
+                                            <StackPanel VerticalAlignment="Bottom"  Margin="10" Grid.Row="1">
+                                                <TextBlock 
+                                    Text="Download"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Margin="5"/>
+
+                                                <TextBlock 
+                                    Text="Estratégia, Ação, Simulação"
+                                    Foreground="White"
+                                    Margin="5"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                    </Border>
+
+                                </StackPanel>
+
+
+
+                                <!--<ListBox 
+                                    x:Name="lstUsuarios"
+                                    DisplayMemberPath="NickName"
+                                    />-->
+
+                                <ListBox x:Name="lstUsuarios">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <TextBlock Text="{Binding idUsuario}" Margin="0,0,5,0"/>
+                                                <TextBlock Text="{Binding nickName}" Margin="0,0,5,0"/>
+                                                <TextBlock Text="{Binding email}" Margin="0,0,5,0"/>
+                                                <TextBlock Text="{Binding senha}" Margin="0,0,5,0"/>
+                                                <TextBlock Text="{Binding hashs}" Margin="0,0,5,0"/>
+                                                <TextBlock Text="{Binding apiKey}" Margin="0,0,5,0"/>
+                                                <TextBlock Text="{Binding dataCriacao}" Margin="0,0,5,0"/>
+                                                <TextBlock Text="{Binding dataAlteracao}" Margin="0,0,5,0"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+
+                                </ListBox>
+
+
+
+                            </StackPanel>
+
+                        </ScrollViewer>
+                    </StackPanel>
+                    
+                </Grid>
+
+                <!-- Linha 3: Cards -->
+                <Grid Margin="40">
+                    <!-- Conteúdo dos cards -->
+                    <!-- Definir as 5 colunas -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Card 0 -->
+                    <StackPanel
+                 Grid.Column="0"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Top"
+                 Margin="10"
+                 >
+                        <Border
+                     Background="#ccc"
+                     Height="300"
+                     HorizontalAlignment="Stretch"
+                     >
+                            <!--
+                            <TextBlock 
+                         Text="Foto 1"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Foreground="White"
+                         />
+                            -->
+
+                            <Image 
+                            Source="image/celeste.png"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                        </Border>
+                        <!-- Texto Descritivo -->
+                        <TextBlock 
+                     Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     />
+                        <TextBlock 
+                     Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     />
+                    </StackPanel>
+
+                    <!-- Card 1 -->
+                    <StackPanel
+                 Grid.Column="1"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Top"
+                 Margin="10"
+                 >
+                        <Border
+                     Background="#ccc"
+                     Height="300"
+                     HorizontalAlignment="Stretch"
+                     >
+                            <!--
+                            <TextBlock 
+                         Text="Foto 1"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Foreground="White"
+                         />
+                            -->
+
+                            <Image 
+                            Source="image/deadcells.png"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+
+                        </Border>
+                        <!-- Texto Descritivo -->
+                        <TextBlock 
+                     Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     />
+                        <TextBlock 
+                     Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     />
+                    </StackPanel>
+
+                    <!-- Card 2 -->
+                    <StackPanel
+                 Grid.Column="2"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Top"
+                 Margin="10"
+                 >
+                        <Border
+                     Background="#ccc"
+                     Height="300"
+                     HorizontalAlignment="Stretch"
+                     >
+                            <!--
+                            <TextBlock 
+                         Text="Foto 1"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Foreground="White"
+                         />
+                            -->
+
+                            <Image 
+                            Source="image/hollowknight.png"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                        </Border>
+                        <!-- Texto Descritivo -->
+                        <TextBlock 
+                     Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     />
+                        <TextBlock 
+                     Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     />
+                    </StackPanel>
+
+                </Grid>
+
+                <!-- Linha 4: Cards -->
+                <Grid Margin="40">
+                    <!-- Conteúdo dos cards -->
+                    <!-- Definir as 5 colunas -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Card 0 -->
+                    <StackPanel
+                 Grid.Column="0"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Margin="10"
+                 >
+                        <Border
+                     Background="#ccc"
+                     Width="300"
+                     Height="500"
+                     >
+
+                            <Image 
+                            Source="image/20minutestilldawn.jpg"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                        </Border>
+
+                    </StackPanel>
+
+                    <!-- Card 1 -->
+                    <StackPanel
+                 Grid.Column="1"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Margin="10"
+                 >
+                        <Border
+                     Background="#ccc"
+                     Width="300"
+                     Height="500"
+                     >
+
+                            <Image 
+                            Source="image/slindingbears.jpg"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                        </Border>
+
+                    </StackPanel>
+
+                    <!-- Card 2 -->
+                    <StackPanel
+                 Grid.Column="2"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Margin="10"
+                 >
+                        <Border
+                     Background="#ccc"
+                     Width="300"
+                     Height="500"
+                     >
+
+                            <Image 
+                            Source="image/devilisland.jpg"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                        </Border>
+
+                    </StackPanel>
+
+                    <!-- Card 3 -->
+                    <StackPanel
+                 Grid.Column="3"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Margin="10"
+                 >
+                        <Border
+                     Background="#ccc"
+                     Width="300"
+                     Height="500"
+                     >
+
+                            <Image 
+                            Source="image/vampiresurvivors.jpg"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                        </Border>
+
+                    </StackPanel>
+
+                    <!-- Card 4 -->
+                    <StackPanel
+                 Grid.Column="4"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Margin="10"
+                 >
+                        <Border
+                     Background="#ccc"
+                     Width="300"
+                     Height="500"
+                     >
+
+                            <Image 
+                            Source="image/thelonging.jpg"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+
+                        </Border>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <!-- Linha 5: Banner -->
+                <Grid Margin="50">
+                    <!-- Conteúdo do banner -->
+                    <!-- Criando as colunas da linha 1 -->
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="*" />
+
+                    </Grid.ColumnDefinitions>
+                    <Border 
+                 Background="LightBlue"
+                 Margin="20, 10"
+                 Grid.Column="0"
+                 Height="250"
+                 >
+
+                        <Image 
+                            Source="image/footer-banner.png"
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                    </Border>
+
+                </Grid>
+
+                <!-- Linha 6: Rodape -->
+                <Grid>
+                    <!-- Conteúdo dos cards -->
+                    <!-- Definir as 5 colunas -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Card 0 -->
+                    <StackPanel
+                 Grid.Column="0"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Top"
+                 Margin="10"
+                 >
+
+                        <!-- Texto Descritivo -->
+                        <TextBlock 
+                     Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     />
+                        <TextBlock 
+                     Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     />
+                    </StackPanel>
+
+                    <!-- Card 1 -->
+                    <StackPanel
+                 Grid.Column="1"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Top"
+                 Margin="10"
+                 >
+
+                        <!-- Texto Descritivo -->
+                        <TextBlock 
+                     Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     />
+                        <TextBlock 
+                     Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     />
+                    </StackPanel>
+
+                    <!-- Card 2 -->
+                    <StackPanel
+                 Grid.Column="2"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Top"
+                 Margin="10"
+                 >
+
+                        <!-- Texto Descritivo -->
+                        <TextBlock 
+                     Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     />
+                        <TextBlock 
+                     Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Margin="5"
+                     />
+                    </StackPanel>
+
+                </Grid>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+    </Grid>
+</Window>
