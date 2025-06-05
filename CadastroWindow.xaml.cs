@@ -23,5 +23,19 @@ namespace AppGameTito
         {
             InitializeComponent();
         }
+
+        private void btnCadastrar(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            var cadastrar = new CadastroWindow();
+            cadastrar.Show();
+        }
+
+        private void aLogin(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            var loginWindow = new LoginWindow();
+            loginWindow.Show();
+        }
     }
 }

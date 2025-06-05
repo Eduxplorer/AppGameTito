@@ -23,5 +23,19 @@ namespace AppGameTito
         {
             InitializeComponent();
         }
+
+        private void btnCodigo(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            var alteraSenha = new AlteraSenhaWindow();
+            alteraSenha.Show();
+        }
+
+        private void aVoltarLogin(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            var loginWindow = new LoginWindow();
+            loginWindow.Show();
+        }
     }
 }
