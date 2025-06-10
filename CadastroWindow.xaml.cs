@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace AppGameTito
 
             string confEmail = txtConfirmarEmail.Text.Trim().ToLower(); // Converte o texto para minúsculas e remove espaços em branco no início e no final
 
-            string senha = txtSenha.Password.Trim().ToLower();  
+            string senha = txtSenha.Password.Trim().ToLower();
 
             string confSenha = txtConfirmarSenha.Password.Trim();
 
@@ -54,7 +55,7 @@ namespace AppGameTito
 
             // Validação de email
 
-            if(email != confEmail)
+            if (email != confEmail)
             {
                 MessageBox.Show("Os emails não conferem!", "Erro!", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtEmail.Focus();
@@ -64,15 +65,105 @@ namespace AppGameTito
 
             // Validação de senha
 
-           if(senha != confSenha)
+            if (senha != confSenha)
             {
                 MessageBox.Show("As senhas não combinam", "Erro", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtSenha.Focus();
                 txtSenha.SelectAll(); // Seleciona todo o texto do campo de senha
                 return;
             }
-            MessageBox.Show($"{nickName}, cadastrado com sucesso!", "Aviso");
-        }
+
+            string conn = "Server=localhost\\SQLEXPRESS;Database=games_tito;Trusted_Connection=True;TrustServerCertificate=True";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(conn))
+                {
+                    // Abre a conexão com o banco de dados
+                    connection.Open();
+
+                    // Verifica se já existe usuário 'nickName' e o email 'email' no banco de dados
+
+                    string checkQuery = "SELECT COUNT(*) FROM tb_Usuario WHERE nickName = @nickName OR email = @email";
+
+                    using (SqlCommand command = new SqlCommand(checkQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@nickName", nickName);
+                        command.Parameters.AddWithValue("@email", email);
+
+                        int count = (int)command.ExecuteScalar();
+
+                        if (count > 0)
+                        {
+                            MessageBox.Show("Usuário ou email já cadastrado!", "Erro", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            txtUsuario.Focus();
+                            txtUsuario.SelectAll(); // Seleciona todo o texto do campo de usuário
+                            return;
+                        }
+
+
+
+                    }
+
+
+                    // Insere o novo usuário no banco de dados
+                    string insertQuery = @"INSERT INTO tb_Usuario
+                                           (
+                                            nickName,
+                                            email,
+                                            senha,
+                                            hashs,
+                                            apiKey,
+                                            idStatus,
+                                            idAcl,
+                                            dataCriacao,
+                                            dataAlteracao
+                                            )
+                                            VALUES
+                                            (
+                                            @nickName,
+                                            @email,
+                                            @senha,
+                                            @hashs,
+                                            @apiKey,
+                                            @idStatus,
+                                            @idAcl,
+                                            @dataCriacao,
+                                            @dataAlteracao
+                                            )";
+
+                    const int idStatus = 2; // Ativo
+                    const int idAcl = 2; // Usuário comum
+                    string hashs = "appGames";
+                    string apiKey = "chaveTito";
+
+
+                    using (SqlCommand cmdInsert = new SqlCommand(insertQuery, connection))
+                    {
+                        cmdInsert.Parameters.AddWithValue("@nickName", nickName);
+                        cmdInsert.Parameters.AddWithValue("@email", email);
+                        cmdInsert.Parameters.AddWithValue("@senha", senha);
+                        cmdInsert.Parameters.AddWithValue("@hashs", hashs);
+                        cmdInsert.Parameters.AddWithValue("apiKey", apiKey);
+                        cmdInsert.Parameters.AddWithValue("@idStatus", idStatus);
+                        cmdInsert.Parameters.AddWithValue("@idAcl", idAcl);
+                        cmdInsert.Parameters.AddWithValue("@dataCriacao", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        cmdInsert.Parameters.AddWithValue("@dataAlteracao", DateTime.Now.ToString("yy0yy-MM-dd HH:mm:ss"));
+
+                        cmdInsert.ExecuteNonQuery();
+
+                    }
+
+                }
+                MessageBox.Show($"{nickName}, cadastrado com sucesso!", "Aviso");
+                this.Close();
+                new LoginWindow().Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao cadastrar usuário: {ex.Message}", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }  
 
         private void aLogin(object sender, RoutedEventArgs e)
         {
