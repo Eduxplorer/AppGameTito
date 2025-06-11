@@ -26,10 +26,12 @@ namespace AppGameTito
 
         private void BtnEntrar(object sender, RoutedEventArgs e)
         {
+            string usuarioOuEmail = txtUsuarioOuEmail.Text.Trim().ToLower();
 
-            this.Close();
-         var loginWindow = new LoginWindow();
-           loginWindow.Show();
+            string senha = txtSenha.Password.Trim().ToLower();
+
+
+
         }
 
         private void aEsqueciSenha(object sender, RoutedEventArgs e)

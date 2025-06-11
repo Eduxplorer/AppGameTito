@@ -19,7 +19,7 @@
                 <!--Campo de Usuário e Email-->
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock Text="Usuário/Email" FontSize="16"  />
-                <TextBox Width="200" Height="20" />
+                <TextBox x:Name="txtUsuarioOuEmail" Width="200" Height="20" />
             </StackPanel>      
             
             <!--Campo de Senha -->

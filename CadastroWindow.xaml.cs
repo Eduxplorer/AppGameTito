@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography; 
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BCrypt.Net; // Certifique-se de ter instalado o pacote BCrypt.Net-Next via NuGet
 
 namespace AppGameTito
 {
@@ -37,6 +39,12 @@ namespace AppGameTito
             string senha = txtSenha.Password.Trim().ToLower();
 
             string confSenha = txtConfirmarSenha.Password.Trim();
+
+            string pPasse = "manteiguinha"; // Senha padrão para o usuário, pode ser alterada posteriormente
+
+            // Variavel para armazenar a data e hora completa
+
+            DateTime horaC = DateTime.Now;
 
             // Validação de campos preenchidos
 
@@ -73,8 +81,42 @@ namespace AppGameTito
                 return;
             }
 
-            string conn = "Server=localhost\\SQLEXPRESS;Database=games_tito;Trusted_Connection=True;TrustServerCertificate=True";
 
+         
+
+            //string nickNameMd5 = GerarMD5(nickName);
+            string nickNameMd5 = BitConverter.ToString(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(nickName))).Replace("-", "").ToLower();
+
+            string emailMd5 = BitConverter.ToString(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(email))).Replace("-", "").ToLower();
+
+            string senhaMd5 = BitConverter.ToString(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(senha))).Replace("-", "").ToLower();
+
+            string pPasseMd5 = BitConverter.ToString(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(pPasse))).Replace("-", "").ToLower();
+
+
+            string part1 = nickNameMd5 + emailMd5;
+            string part2 = senhaMd5 + pPasseMd5;
+
+            string senhaCrypt = part1 + part2;
+
+            string hashsCrypt = horaC + part2 + part1;
+
+            senha = BCrypt.Net.BCrypt.HashPassword(senhaCrypt);
+
+            string hashs = BCrypt.Net.BCrypt.HashPassword(hashsCrypt);
+
+           // MessageBox.Show("Senha criptografa é: " + senha, "MD5");
+           // MessageBox.Show("A hashs criptografada é: " + hashs, "MD5");
+
+         //   MessageBox.Show("pPasseMD5 em MD5: " + pPasseMd5, "MD5");
+        //    MessageBox.Show("senhaCrypt: " + senhaCrypt, "MD5");
+          //  MessageBox.Show("hashsCrypt: " + hashsCrypt, "MD5");
+
+
+            // Comentar todo o bloco para não gravar dados em excesso
+
+            string conn = "Server=localhost\\SQLEXPRESS;Database=games_tito;Trusted_Connection=True;TrustServerCertificate=True";
+            
             try
             {
                 using (SqlConnection connection = new SqlConnection(conn))
@@ -134,7 +176,6 @@ namespace AppGameTito
 
                     const int idStatus = 2; // Ativo
                     const int idAcl = 2; // Usuário comum
-                    string hashs = "appGames";
                     string apiKey = "chaveTito";
 
 
@@ -148,7 +189,7 @@ namespace AppGameTito
                         cmdInsert.Parameters.AddWithValue("@idStatus", idStatus);
                         cmdInsert.Parameters.AddWithValue("@idAcl", idAcl);
                         cmdInsert.Parameters.AddWithValue("@dataCriacao", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        cmdInsert.Parameters.AddWithValue("@dataAlteracao", DateTime.Now.ToString("yy0yy-MM-dd HH:mm:ss"));
+                        cmdInsert.Parameters.AddWithValue("@dataAlteracao", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                         cmdInsert.ExecuteNonQuery();
 
@@ -163,6 +204,7 @@ namespace AppGameTito
             {
                 MessageBox.Show($"Erro ao cadastrar usuário: {ex.Message}", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
         }  
 
         private void aLogin(object sender, RoutedEventArgs e)
