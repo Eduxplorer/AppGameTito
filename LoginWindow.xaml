@@ -7,44 +7,61 @@
         mc:Ignorable="d"
         Title="LoginWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
-        <Grid VerticalAlignment="Center">
+        <Viewbox MaxWidth="700" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-            <StackPanel HorizontalAlignment="Center" Margin="0,0,0,20">
+            <Grid x:Name="FormularioLogin" Width="350" Margin="20" VerticalAlignment="Center">
 
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,0,0,20">
+                <Grid.Resources>
+                    <Style x:Key="LabelDeFormulario" TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Margin" Value="0,15,0,5"/>
+                    </Style>
+
+                    <Style x:Key="InputDeFormulario" TargetType="TextBox">
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Height" Value="32"/>
+                    </Style>
+
+                    <Style x:Key="InputDeSenhaFormulario" TargetType="PasswordBox">
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Height" Value="32"/>
+                    </Style>
+                </Grid.Resources>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Bem-vindo de Volta!" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <TextBlock Grid.Row="1" Text="Faça login para continuar." FontSize="14" Foreground="Gray" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+
+                <TextBlock Grid.Row="2" Text="Usuário ou Email" Style="{StaticResource LabelDeFormulario}" />
+                <TextBox   Grid.Row="3" x:Name="txtUsuarioOuEmail" Style="{StaticResource InputDeFormulario}" />
+
+                <TextBlock   Grid.Row="4" Text="Senha" Style="{StaticResource LabelDeFormulario}" />
+                <PasswordBox Grid.Row="5" x:Name="txtSenha" Style="{StaticResource InputDeSenhaFormulario}" />
+
+                <Button Grid.Row="6" Content="Entrar" Height="40" FontSize="16" Margin="0,25,0,20" Click="BtnEntrar"/>
+
+                <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock>
+                <Hyperlink Click="aEsqueciSenha">Esqueci a Senha</Hyperlink>
+                    </TextBlock>
+                    <TextBlock Text="|" Margin="10,0" VerticalAlignment="Center" Foreground="Gray"/>
+                    <TextBlock>
+                <Hyperlink Click="aCadastreSe">Cadastre-se</Hyperlink>
+                    </TextBlock>
                 </StackPanel>
-                    <TextBlock Text="Bem-vindo ao App Game Tito!"  FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
-                    <TextBlock Text="Por favor, faça login para continuar." HorizontalAlignment="Center" FontSize="16" Margin="0,0,0,20"/>
-
-                <!--Campo de Usuário e Email-->
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="Usuário/Email" FontSize="16"  />
-                <TextBox x:Name="txtUsuarioOuEmail" Width="200" Height="20" />
-            </StackPanel>      
-            
-            <!--Campo de Senha -->
-            <StackPanel Margin="0 10" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="Senha" FontSize="16"  />
-
-                    <PasswordBox x:Name="txtSenha" Width="200" Height="20" Margin="0 5" />
-                
-                    <Button Content="Entrar" Margin="0 10 0 0" Click="BtnEntrar" Width="150" Height="23" HorizontalAlignment="Center"  />
-            </StackPanel>
-
-
-            <StackPanel Margin="0 5" Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Margin="10 0">
-                    <Hyperlink Click="aEsqueciSenha" >Esqueci a Senha</Hyperlink>
-                </TextBlock>
-
-                <TextBlock Text="|" />
-
-                <TextBlock Margin="10 0">
-                    <Hyperlink Click="aCadastreSe">Cadastre-se</Hyperlink>
-                </TextBlock>
-            </StackPanel>
-            </StackPanel>
-        </Grid>
-        
+            </Grid>
+        </Viewbox>
     </Grid>
 </Window>

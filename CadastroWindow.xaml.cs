@@ -213,5 +213,10 @@ namespace AppGameTito
             var loginWindow = new LoginWindow();
             loginWindow.Show();
         }
+
+        private void txtUsuario_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

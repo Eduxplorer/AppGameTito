@@ -73,6 +73,8 @@ namespace AppGameTito
         public class Usuario
         {
             public int idUsuario { get; set; }
+            public int idAcl { get; set; }
+            public int idStatus { get; set; }
             public string nickName { get; set; }
 
             public string email { get; set; }
@@ -86,8 +88,6 @@ namespace AppGameTito
             public string dataCriacao { get; set; }
 
             public string dataAlteracao { get; set; }
-
-
 
         }
         public MainWindow()
