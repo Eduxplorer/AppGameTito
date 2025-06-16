@@ -99,10 +99,10 @@ namespace AppGameTito
 
             string senhaCrypt = part1 + part2;
 
-            string hashsCrypt = horaC + part2 + part1;
 
             senha = BCrypt.Net.BCrypt.HashPassword(senhaCrypt);
 
+            string hashsCrypt = horaC + part2 + part1;
             string hashs = BCrypt.Net.BCrypt.HashPassword(hashsCrypt);
 
            // MessageBox.Show("Senha criptografa é: " + senha, "MD5");
@@ -188,8 +188,10 @@ namespace AppGameTito
                         cmdInsert.Parameters.AddWithValue("apiKey", apiKey);
                         cmdInsert.Parameters.AddWithValue("@idStatus", idStatus);
                         cmdInsert.Parameters.AddWithValue("@idAcl", idAcl);
-                        cmdInsert.Parameters.AddWithValue("@dataCriacao", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        cmdInsert.Parameters.AddWithValue("@dataAlteracao", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        cmdInsert.Parameters.AddWithValue("@dataCriacao", DateTime.Now);
+                        cmdInsert.Parameters.AddWithValue("@dataAlteracao", DateTime.Now);
+                        //cmdInsert.Parameters.AddWithValue("@dataCriacao", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        //cmdInsert.Parameters.AddWithValue("@dataAlteracao", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                         cmdInsert.ExecuteNonQuery();
 

@@ -11,9 +11,9 @@
         <Grid>
 
             <StackPanel HorizontalAlignment="Center" Margin="0,0,0,20">
-                <TextBlock Grid.Row="0" Text="Digite o código enviado para o seu email:" Margin="0,0,0,10"/>
-        <TextBox x:Name="txtEmail" Grid.Row="1" Height="30" Margin="0,0,0,20"/>
-        <Button Content="Enviar Email de Recuperação" Grid.Row="2" Height="35" Click="btnCodigo" Margin="0,10,0,0"/>
+                <TextBlock Grid.Row="0" Text="Digite seu email ou usuário para recuperar" Margin="0,0,0,10"/>
+        <TextBox x:Name="txtEmailOuSenha" Grid.Row="1" Height="30" Margin="0,0,0,20"/>
+        <Button Content="Recuperar" Grid.Row="2" Height="35" Click="btnRecuperar" Margin="0,10,0,0"/>
             <TextBlock Grid.Row="3" Margin="0,20,0,0">
             <Hyperlink Click="aVoltarLogin">Voltar para o login</Hyperlink>
         </TextBlock>

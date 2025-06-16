@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using static AppGameTito.MainWindow;
+using System.Security.Cryptography;
 
 namespace AppGameTito
 {
@@ -31,6 +32,8 @@ namespace AppGameTito
             string usuarioOuEmail = txtUsuarioOuEmail.Text.Trim().ToLower();
 
             string senha = txtSenha.Password.Trim();
+
+            string pPasse = "manteiguinha"; // Senha padrão para o usuário, pode ser alterada posteriormente
 
             // conexão com banco de dados
 
@@ -66,14 +69,62 @@ namespace AppGameTito
                 }
             }
 
-            if (usuarios.Count > 0)
+            
+
+            if (usuarios.Count <= 0)
             {
-                MessageBox.Show($"Nickname: {usuarios[0].nickName} \nemail: {usuarios[0].email} \nsenha: {usuarios[0].senha}", "usuario");
+                MessageBox.Show("Usuário ou senha inválidos", "Erro de Login", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
-            else
+
+            string nickNameDB = usuarios[0].nickName;
+            string emailDB = usuarios[0].email;
+            string senhaDB = usuarios[0].senha;
+
+            int idUsuario = usuarios[0].idUsuario;
+            int idStatus = usuarios[0].idStatus;
+            int idAcl = usuarios[0].idAcl;
+
+            string nickNameMd5 = BitConverter.ToString(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(nickNameDB))).Replace("-", "").ToLower();
+
+            string emailMd5 = BitConverter.ToString(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(emailDB))).Replace("-", "").ToLower();
+
+            string senhaMd5 = BitConverter.ToString(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(senha))).Replace("-", "").ToLower();
+
+            string pPasseMd5 = BitConverter.ToString(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(pPasse))).Replace("-", "").ToLower();
+
+
+            string part1 = nickNameMd5 + emailMd5;
+            string part2 = senhaMd5 + pPasseMd5;
+
+            string senhaCryp = part1 + part2;
+
+
+            //senha = BCrypt.Net.BCrypt.HashPassword(senhaCrypt);
+
+
+            bool vSenha = BCrypt.Net.BCrypt.Verify(senhaCryp, senhaDB);
+
+            if(!(vSenha))
             {
-                MessageBox.Show("Nickname nenhum usuario encontrado", "usuario");
+                MessageBox.Show("Usuário ou senha invalida - Senha", "Erro - Senha");
+                return;
             }
+
+            MessageBox.Show("Usuário ok", "Usuário válido!");
+
+
+            MessageBox.Show("Senha banco de dados: " + senhaDB + "\nSenha para comparação " + senha, "Usuário");
+
+
+            //if (usuarios.Count > 0)
+            //{
+            //    MessageBox.Show($"Nickname: {usuarios[0].nickName} \nemail: {usuarios[0].email} \nsenha: {usuarios[0].senha}", "usuario");
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Nickname nenhum usuario encontrado", "usuario");
+            //}
 
 
         }

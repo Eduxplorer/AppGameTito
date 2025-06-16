@@ -24,18 +24,22 @@ namespace AppGameTito
             InitializeComponent();
         }
 
-        private void btnCodigo(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-            var alteraSenha = new AlteraSenhaWindow();
-            alteraSenha.Show();
-        }
 
         private void aVoltarLogin(object sender, RoutedEventArgs e)
         {
             this.Close();
             var loginWindow = new LoginWindow();
             loginWindow.Show();
+        }
+
+        private void btnRecuperar(object sender, RoutedEventArgs e)
+        {
+            string emailOuSenha = txtEmailOuSenha.Text.Trim().ToLower();
+
+            string conn = "Server=localhost\\SQLEXPRESS;Database=games_tito;Trusted_Connection=True;TrustServerCertificate=True";
+
+            string query = "SELECT * FROM tb_Usuario WHERE nickName = @nickName OR email = @nickName";
+
         }
     }
 }
