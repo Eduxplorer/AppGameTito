@@ -19,15 +19,19 @@ namespace AppGameTito
     /// </summary>
     public partial class AlteraSenhaWindow : Window
     {
-        public AlteraSenhaWindow()
+        private string hashs;
+        public AlteraSenhaWindow(string hashs)
         {
             InitializeComponent();
+            this.hashs = hashs; // Atribui a hash recebida ao campo de classe
+            MessageBox.Show("A hash recuperada é: " + hashs, "Hash"); // Exibe a hash recebida
         }
 
         private void btnAlterarSenha(object sender, RoutedEventArgs e)
         {
-            this.Close();
-            new AlteraSenhaWindow().Show();
+            MessageBox.Show("A hash passada que chegou aqui foi: " + hashs, "Hash");
+            string nickName = txtEmailOuUsuario.Text.Trim().ToLower();
+
 
         }
 

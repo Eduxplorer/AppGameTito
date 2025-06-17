@@ -20,13 +20,15 @@
                     </Style>
 
                     <Style x:Key="InputDeFormulario" TargetType="TextBox">
-                        <Setter Property="VerticalAlignment" Value="Center"/>
                         <Setter Property="Height" Value="32"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/> 
                     </Style>
 
                     <Style x:Key="InputDeSenhaFormulario" TargetType="PasswordBox">
-                        <Setter Property="VerticalAlignment" Value="Center"/>
                         <Setter Property="Height" Value="32"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
                     </Style>
                 </Grid.Resources>
 
@@ -45,10 +47,10 @@
                 <TextBlock Grid.Row="1" Text="Faça login para continuar." FontSize="14" Foreground="Gray" HorizontalAlignment="Center" Margin="0,0,0,15"/>
 
                 <TextBlock Grid.Row="2" Text="Usuário ou Email" Style="{StaticResource LabelDeFormulario}" />
-                <TextBox   Grid.Row="3" Height="20" x:Name="txtUsuarioOuEmail" Style="{StaticResource InputDeFormulario}" />
+                <TextBox   Grid.Row="3"   Height="30" x:Name="txtUsuarioOuEmail" Style="{StaticResource InputDeFormulario}" />
 
                 <TextBlock   Grid.Row="4" Text="Senha" Style="{StaticResource LabelDeFormulario}" />
-                <PasswordBox Grid.Row="5" Height="20" x:Name="txtSenha" Style="{StaticResource InputDeSenhaFormulario}" />
+                <PasswordBox Grid.Row="5" Height="30" x:Name="txtSenha" Style="{StaticResource InputDeSenhaFormulario}" />
 
                 <Button Grid.Row="6" Content="Entrar" Height="40" FontSize="16" Margin="0,25,0,20" Click="BtnEntrar"/>
 
