@@ -18,15 +18,15 @@
                     </Style>
 
                     <Style x:Key="InputDeFormulario" TargetType="TextBox">
-                        <Setter Property="VerticalAlignment" Value="Center"/>
                         <Setter Property="Height" Value="28"/>
-                        <Setter Property="Margin" Value="0,5,0,5"/>
+                        <Setter Property="Margin" Value="0,5,0,5" />
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
                     </Style>
 
                     <Style x:Key="InputDeSenhaFormulario" TargetType="PasswordBox">
-                        <Setter Property="VerticalAlignment" Value="Center"/>
                         <Setter Property="Height" Value="28"/>
-                        <Setter Property="Margin" Value="0,5,0,5"/>
+                        <Setter Property="Margin" Value="0,5,0,5" />
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
                     </Style>
                 </Grid.Resources>
 

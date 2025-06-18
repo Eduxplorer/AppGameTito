@@ -25,6 +25,8 @@ namespace AppGameTito
         public CadastroWindow()
         {
             InitializeComponent();
+                        
+
         }
 
         private void btnCadastrar(object sender, RoutedEventArgs e)

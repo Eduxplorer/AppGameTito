@@ -8,27 +8,65 @@
         Title="AlteraSenhaWindow" Height="450" Width="800" WindowState="Maximized" WindowStartupLocation="CenterScreen">
     <Grid>
 
-        <Grid Margin="20">
+        <Viewbox MaxWidth="800" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-            <StackPanel HorizontalAlignment="Left" Margin="0,0,0,20">
-                <TextBlock Text="Usuario/Email" />
-                <TextBox x:Name="txtEmailOuUsuario"  Height="30" Margin="0,0,0,20"/>
+            <Grid x:Name="FormularioAlteraSenha" Width="420" Margin="20">
 
-                <TextBlock  Text="Digite sua nova senha:" Margin="0,0,0,10"/>
-            <PasswordBox x:Name="txtNovaSenha"  Height="30" Margin="0,0,0,20"/>
+                <Grid.Resources>
+                    <Style x:Key="LabelDeFormulario" TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Margin" Value="0,15,0,5"/>
+                    </Style>
 
-                <TextBlock Text="Confirme sua nova senha:" Margin="0,0,0,10"/>
-                <PasswordBox x:Name="txtConfirmarSenha"  Height="30" Margin="0,0,0,20" PasswordChar="*"/>
-            <Button Content="Alterar Senha" Height="35" Click="btnAlterarSenha" Margin="0,10,0,0"/>
-            <TextBlock Grid.Row="2" Margin="0,10,0,0" TextWrapping="Wrap">
-                <Run Text="A senha deve ter pelo menos 8 caracteres, incluindo letras e números."/>
-            </TextBlock>
-            <TextBlock Grid.Row="3" Margin="0,20,0,0">
+                    <Style x:Key="InputDeFormulario" TargetType="TextBox">
+                        <Setter Property="Height" Value="34"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    </Style>
+
+                    <Style x:Key="InputDeSenhaFormulario" TargetType="PasswordBox">
+                        <Setter Property="Height" Value="34"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    </Style>
+                </Grid.Resources>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Alterar sua Senha" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+
+                    <TextBlock Grid.Row="1" Text="Seu Usuário ou Email" Style="{StaticResource LabelDeFormulario}" />
+                    <TextBox   Grid.Row="2" x:Name="txtEmailOuUsuario" Style="{StaticResource InputDeFormulario}" />
+
+                    <TextBlock   Grid.Row="3" Text="Digite sua nova senha" Style="{StaticResource LabelDeFormulario}" />
+                    <PasswordBox Grid.Row="4" x:Name="txtNovaSenha" Style="{StaticResource InputDeSenhaFormulario}" />
+
+                    <TextBlock   Grid.Row="5" Text="Confirme sua nova senha" Style="{StaticResource LabelDeFormulario}" />
+                    <PasswordBox Grid.Row="6" x:Name="txtConfirmarSenha" Style="{StaticResource InputDeSenhaFormulario}"/>
+
+                    <TextBlock Grid.Row="7" TextWrapping="Wrap" FontSize="12" Foreground="Gray" Margin="0,15,0,0">
+                A senha deve ter pelo menos 8 caracteres, incluindo letras e números.
+                    </TextBlock>
+
+                    <Button Grid.Row="8" Content="Alterar Senha" Height="40" FontSize="16" Margin="0,20,0,0" Click="btnAlterarSenha"/>
+
+                    <TextBlock Grid.Row="9" HorizontalAlignment="Center" Margin="0,20,0,0">
                 <Hyperlink Click="aVoltarLogin">Voltar para o login</Hyperlink>
-            </TextBlock>
-
-                </StackPanel>
-        </Grid>
+                    </TextBlock>
+            </Grid>
+ 
+    </Viewbox>
 
     </Grid>
 </Window>
