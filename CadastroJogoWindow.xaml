@@ -36,6 +36,15 @@
                         <Setter Property="Height" Value="32"/>
                         <Setter Property="VerticalContentAlignment" Value="Center"/>
                     </Style>
+
+                    <Style x:Key="DatePickerDeFormulario" TargetType="DatePicker">
+                        <Setter Property="Height" Value="32"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    </Style>
+
+                    <Style x:Key="CaixaDeFormulario" TargetType="ComboBox">
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
                 </Grid.Resources>
 
                 <Grid.ColumnDefinitions>
@@ -45,6 +54,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -63,52 +73,57 @@
                     <TextBox Name="NomeJogoTextBox" Style="{StaticResource InputDeFormulario}"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="2" Grid.Column="0">
-                    <TextBlock Text="Gênero" Style="{StaticResource LabelDeFormulario}"/>
-                    <ComboBox Name="GeneroComboBox" Height="32">
-                        <ComboBoxItem Content="Ação"/>
-                        <ComboBoxItem Content="Aventura"/>
-                        <ComboBoxItem Content="RPG"/>
-                        <ComboBoxItem Content="Estratégia"/>
-                        <ComboBoxItem Content="Simulação"/>
-                        <ComboBoxItem Content="Esporte"/>
-                    </ComboBox>
-                </StackPanel>
-
                 <StackPanel Grid.Row="1" Grid.Column="2">
                     <TextBlock Text="Preço (R$)" Style="{StaticResource LabelDeFormulario}"/>
                     <TextBox Name="PrecoTextBox" Style="{StaticResource InputDeFormulario}"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="2" Grid.ColumnSpan="3">
+                <StackPanel Grid.Row="2" Grid.Column="0">
+                    <TextBlock Text="Assinatura" Style="{StaticResource LabelDeFormulario}"/>
+                    <ComboBox Name="AssinaturaComboBox" Style="{StaticResource CaixaDeFormulario}" Height="32">
+                        <ComboBoxItem Content="Não incluso"/>
+                        <ComboBoxItem Content="Incluso"/>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Grid.Column="2">
+                    <TextBlock Text="Data de Lançamento" Style="{StaticResource LabelDeFormulario}"/>
+                    <DatePicker Name="DataLancamentoPicker" Style="{StaticResource DatePickerDeFormulario}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
                     <TextBlock Text="Gêneros (selecione um ou mais)" Style="{StaticResource LabelDeFormulario}"/>
                     <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="3">
-                        <ListBox Name="GenerosListBox" Height="120" SelectionMode="Multiple">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox 
+                        <ScrollViewer Height="120" VerticalScrollBarVisibility="Auto">
+
+                            <ItemsControl Name="GenerosItemsControl" ItemsSource="{Binding ListaDeGeneros}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox 
                         Content="{Binding Nome}" 
                         IsChecked="{Binding IsSelected, Mode=TwoWay}"
                         Margin="5,2"
                         />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                        </ScrollViewer>
                     </Border>
                 </StackPanel>
-                <StackPanel Grid.Row="3" Grid.Column="0">
+
+                <StackPanel Grid.Row="4" Grid.Column="0">
                     <TextBlock Text="Descrição" Style="{StaticResource LabelDeFormulario}"/>
                     <TextBox Name="DescricaoTextBox" Height="120" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="3" Grid.Column="2">
+                <StackPanel Grid.Row="4" Grid.Column="2">
                     <TextBlock Text="Requisitos do Sistema" Style="{StaticResource LabelDeFormulario}"/>
                     <TextBox Name="RequisitosTextBox" Height="120" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="4" Grid.Column="0">
+                <StackPanel Grid.Row="5" Grid.Column="0">
                     <TextBlock Text="Classificação Indicativa" Style="{StaticResource LabelDeFormulario}"/>
-                    <ComboBox Name="ClassificacaoIndicativaComboBox" Height="32">
+                    <ComboBox Name="ClassificacaoIndicativaComboBox" Style="{StaticResource CaixaDeFormulario}" Height="32">
                         <ComboBoxItem Content="Livre"/>
                         <ComboBoxItem Content="10 anos"/>
                         <ComboBoxItem Content="12 anos"/>
@@ -118,20 +133,21 @@
                     </ComboBox>
                 </StackPanel>
 
-                <StackPanel Grid.Row="4" Grid.Column="2">
+                <StackPanel Grid.Row="5" Grid.Column="2">
                     <TextBlock Text="Tipo" Style="{StaticResource LabelDeFormulario}"/>
-                    <ComboBox Name="TipoComboBox" Height="32">
+                    <ComboBox Name="TipoComboBox" Style="{StaticResource CaixaDeFormulario}" Height="32">
                         <ComboBoxItem Content="Jogo Principal"/>
                         <ComboBoxItem Content="DLC"/>
                     </ComboBox>
                 </StackPanel>
 
-                <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
-                    <Button Name="CadastrarButton" Content="Cadastrar" Width="120" Height="40" Margin="10" />
+                <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
+                    <Button Name="CadastrarButton" Content="Cadastrar" Width="120" Height="40" Margin="10" Click="CadastrarButton_Click" />
                     <Button Name="CancelarButton" Content="Cancelar" Width="120" Height="40" Margin="10"/>
                 </StackPanel>
 
             </Grid>
         </Viewbox>
+
     </Grid>
 </Window>
