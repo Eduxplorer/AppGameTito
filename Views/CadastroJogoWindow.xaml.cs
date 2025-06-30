@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
 
 namespace AppGameTito
 {
@@ -40,7 +41,7 @@ namespace AppGameTito
         };
 
             // 2. Associe a lista ao ListBox no XAML
-            GenerosListBox.ItemsSource = ListaDeGeneros;
+            GenerosItemsControl.ItemsSource = ListaDeGeneros;
         }
 
         // GeneroSelecao.cs
@@ -123,6 +124,16 @@ namespace AppGameTito
                         MessageBoxImage.Error);
                 return;
             }
+            
+            
+            // Conexão com o banco de dados
+            
+            string conn = "Server=localhost\\SQLEXPRESS;Database=games_tito;Trusted_Connection=True;TrustServerCertificate=True";
+            
+            
+            
+
+        
 
 
 
