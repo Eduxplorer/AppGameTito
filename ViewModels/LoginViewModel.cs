@@ -1,19 +1,22 @@
+// Pastas: ViewModels/LoginViewModel.cs
+
 using AppGameTito.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows;
+using System.Windows.Controls; // Importe este namespace para usar o PasswordBox
 
 namespace AppGameTito.ViewModels
 {
-    // ObservableObject já implementa INotifyPropertyChanged
     public partial class LoginViewModel : ObservableObject
     {
-        // A anotação [ObservableProperty] cria a propriedade e o boilerplate para nós
+        // Propriedade para o campo de texto de usuário/email.
+        // O binding no XAML vai se conectar aqui.
         [ObservableProperty]
         private string _usuarioOuEmail;
 
-        [ObservableProperty]
-        private string _senha;
+        // Não precisamos de uma propriedade para a senha aqui,
+        // pois vamos pegá-la diretamente do controle.
 
         private UsuarioService _usuarioService;
 
@@ -22,11 +25,22 @@ namespace AppGameTito.ViewModels
             _usuarioService = new UsuarioService();
         }
 
-        // [RelayCommand] cria um ICommand para ser usado na View
+        // Este é o comando que o botão "Entrar" vai chamar.
+        // Ele está preparado para receber um parâmetro (o PasswordBox).
         [RelayCommand]
-        private void Login()
+        private void Login(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(UsuarioOuEmail) || string.IsNullOrWhiteSpace(Senha))
+            string senha = "";
+
+            // 1. Verificamos se o parâmetro recebido é um PasswordBox
+            if (parameter is PasswordBox passwordBox)
+            {
+                // 2. Se for, pegamos a senha de dentro dele
+                senha = passwordBox.Password;
+            }
+
+            // 3. O resto da sua lógica de validação
+            if (string.IsNullOrWhiteSpace(UsuarioOuEmail) || string.IsNullOrWhiteSpace(senha))
             {
                 MessageBox.Show("Preencha todos os campos!", "Erro", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -40,14 +54,12 @@ namespace AppGameTito.ViewModels
                 return;
             }
 
-            // BCrypt.Verify compara a senha digitada com o hash salvo no banco
-            bool isSenhaValida = BCrypt.Net.BCrypt.Verify(Senha, usuario.Senha);
+            bool isSenhaValida = BCrypt.Net.BCrypt.Verify(senha, usuario.Senha);
 
             if (isSenhaValida)
             {
                 MessageBox.Show("Login realizado com sucesso!", "Sucesso");
-                // Aqui você pode navegar para a MainWindow
-                // Vamos ver como fazer isso no Passo 5
+                // Futuramente, aqui chamaremos o serviço de navegação para abrir a MainWindow
             }
             else
             {

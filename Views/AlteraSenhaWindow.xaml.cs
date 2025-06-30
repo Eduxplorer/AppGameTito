@@ -153,9 +153,9 @@ namespace AppGameTito
 
         private void aVoltarLogin(object sender, RoutedEventArgs e)
         {
-            this.Close();
-            var loginWindow = new LoginWindow();
-            loginWindow.Show();
+            //this.Close();
+            //var loginWindow = new LoginWindow();
+            //loginWindow.Show();
         }
     }
 }

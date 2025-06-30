@@ -157,8 +157,8 @@ namespace AppGameTito
         {
             // Cria uma nova instância da janela de login e exibe-a como uma caixa de diálogo modal
             // Isso impede que o usuário interaja com a janela principal até que a janela de login seja fechada
-            var loginWindow = new LoginWindow();
-            loginWindow.ShowDialog();
+            //var loginWindow = new LoginWindow();
+            //loginWindow.ShowDialog();
         }
     }
 }

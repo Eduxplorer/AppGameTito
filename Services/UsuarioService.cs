@@ -72,8 +72,60 @@ namespace AppGameTito.Services
                     return rowsAffected > 0;
                 }
             }
+
+
+
         }
 
-        // Adicionar aqui os outros métodos (Update, Delete, etc.)
+        // Lembrar de adicionar aqui os outros métodos (Update, Delete, etc.)
+
+        // Este método retorna uma string para sabermos o resultado da operação
+        public string CriarUsuario(string nickName, string email, string senha)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                // 1. VERIFICAR SE O USUÁRIO OU EMAIL JÁ EXISTE
+                string checkQuery = "SELECT COUNT(*) FROM tb_Usuario WHERE nickName = @nickName OR email = @email";
+                using (SqlCommand checkCmd = new SqlCommand(checkQuery, connection))
+                {
+                    checkCmd.Parameters.AddWithValue("@nickName", nickName);
+                    checkCmd.Parameters.AddWithValue("@email", email);
+
+                    int userCount = (int)checkCmd.ExecuteScalar();
+                    if (userCount > 0)
+                    {
+                        // Retorna uma mensagem de erro específica
+                        return "Usuário ou email já cadastrado!";
+                    }
+                }
+
+                // 2. CRIAR O HASH DA SENHA (DA FORMA CORRETA E SEGURA)
+                // Simples, direto e seguro. Adeus MD5 e concatenações!
+                string senhaHash = BCrypt.Net.BCrypt.HashPassword(senha);
+
+                // 3. INSERIR O NOVO USUÁRIO NO BANCO
+                string insertQuery = @"INSERT INTO tb_Usuario (nickName, email, senha, idStatus, idAcl, dataCriacao, dataAlteracao)
+                                   VALUES (@nickName, @email, @senha, @idStatus, @idAcl, @dataCriacao, @dataAlteracao)";
+
+                using (SqlCommand insertCmd = new SqlCommand(insertQuery, connection))
+                {
+                    insertCmd.Parameters.AddWithValue("@nickName", nickName);
+                    insertCmd.Parameters.AddWithValue("@email", email);
+                    insertCmd.Parameters.AddWithValue("@senha", senhaHash); // Salva o hash seguro
+                    insertCmd.Parameters.AddWithValue("@idStatus", 2);      // Ativo
+                    insertCmd.Parameters.AddWithValue("@idAcl", 2);         // Usuário Comum
+                    insertCmd.Parameters.AddWithValue("@dataCriacao", DateTime.Now);
+                    insertCmd.Parameters.AddWithValue("@dataAlteracao", DateTime.Now);
+
+                    int rowsAffected = insertCmd.ExecuteNonQuery();
+
+                    return rowsAffected > 0 ? "sucesso" : "Erro ao cadastrar usuário.";
+                }
+            }
+        }
+
+
     }
 }
