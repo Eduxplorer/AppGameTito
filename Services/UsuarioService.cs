@@ -45,37 +45,6 @@ namespace AppGameTito.Services
             return usuario;
         }
 
-        public bool CriarUsuario(Usuario novoUsuario)
-        {
-            // Lógica para verificar se usuário/email já existe...
-
-            // Simplificando a criação da senha 
-            string senhaHash = BCrypt.Net.BCrypt.HashPassword(novoUsuario.Senha);
-
-            string insertQuery = @"INSERT INTO tb_Usuario (nickName, email, senha, idStatus, idAcl, dataCriacao, dataAlteracao)
-                                   VALUES (@nickName, @email, @senha, @idStatus, @idAcl, @dataCriacao, @dataAlteracao)";
-
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-                using (SqlCommand cmdInsert = new SqlCommand(insertQuery, connection))
-                {
-                    cmdInsert.Parameters.AddWithValue("@nickName", novoUsuario.NickName);
-                    cmdInsert.Parameters.AddWithValue("@email", novoUsuario.Email);
-                    cmdInsert.Parameters.AddWithValue("@senha", senhaHash); // Salva o hash gerado pelo BCrypt
-                    cmdInsert.Parameters.AddWithValue("@idStatus", 2); // Ativo
-                    cmdInsert.Parameters.AddWithValue("@idAcl", 2); // Comum
-                    cmdInsert.Parameters.AddWithValue("@dataCriacao", DateTime.Now);
-                    cmdInsert.Parameters.AddWithValue("@dataAlteracao", DateTime.Now);
-
-                    int rowsAffected = cmdInsert.ExecuteNonQuery();
-                    return rowsAffected > 0;
-                }
-            }
-
-
-
-        }
 
         // Lembrar de adicionar aqui os outros métodos (Update, Delete, etc.)
 

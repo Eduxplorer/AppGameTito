@@ -46,6 +46,7 @@
                 <ComboBox ItemsSource="{Binding Tipos}" SelectedItem="{Binding SelectedTipo}" DisplayMemberPath="Nome" Margin="0,5,0,10"/>
 
                 <Button Content="Cadastrar Jogo" Command="{Binding CadastrarCommand}" HorizontalAlignment="Center" Padding="20,10" Margin="0,20,0,0"/>
+                <!-- <Button Content="TESTAR CARREGAMENTO" Name="TestButton" Click="TestButton_Click" Margin="0,20,0,0" Background="Crimson"/> -->
             </StackPanel>
         </ScrollViewer>
     </Grid>

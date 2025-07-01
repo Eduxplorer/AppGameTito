@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace AppGameTito.Views
+namespace AppGameTito.ViewModels
 {
     public partial class CadastroViewModel : ObservableObject
     {

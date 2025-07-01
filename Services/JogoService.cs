@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
+﻿using AppGameTito.Models;
 using System.Collections.ObjectModel;
 using System.Configuration;
-using AppGameTito.Models;
-
-
+using System.Data.SqlClient;
 
 namespace AppGameTito.Services
 {
@@ -16,13 +9,15 @@ namespace AppGameTito.Services
     {
         private readonly string _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-        // Método para carregar as opções dos ComboBoxes e CheckBoxes
+        // ---- MÉTODO CORRIGIDO ----
+        // Agora ele usa os parâmetros 'nomeTabela', 'idColuna' e 'nomeColuna' para montar a query
         public ObservableCollection<T> CarregarLookup<T>(string nomeTabela, string idColuna, string nomeColuna) where T : LookupItem, new()
         {
             var colecao = new ObservableCollection<T>();
             using (var conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
+               
                 var cmd = new SqlCommand($"SELECT {idColuna}, {nomeColuna} FROM {nomeTabela}", conn);
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -41,7 +36,8 @@ namespace AppGameTito.Services
             using (var conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
-                var cmd = new SqlCommand("SELECT id_categoria, nome FROM CATEGORIA", conn);
+                // CORREÇÃO: Nome da tabela em minúsculo
+                var cmd = new SqlCommand("SELECT id_categoria, nome FROM categoria", conn);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -53,19 +49,17 @@ namespace AppGameTito.Services
             return colecao;
         }
 
-        // Método principal para salvar o jogo no banco
         public bool CadastrarJogo(Jogo novoJogo)
         {
             using (var conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
-                // Usa uma transação para garantir que ambas as tabelas (JOGO e JOGO_CATEGORIA) sejam atualizadas
                 using (var transaction = conn.BeginTransaction())
                 {
                     try
                     {
-                        // 1. Insere na tabela JOGO e obtém o ID do novo jogo
-                        string queryJogo = @"INSERT INTO JOGO (nome, preco, descricao, data_lancamento, classificacao_id, tipo_id, assinatura_id)
+                        // ALERTA: Verifique se os nomes 'jogo' e 'jogo_categoria' estão com o case correto para o seu banco
+                        string queryJogo = @"INSERT INTO jogo (nome, preco, descricao, data_lancamento, classificacao_id, tipo_id, assinatura_id)
                                              OUTPUT INSERTED.id_jogo
                                              VALUES (@Nome, @Preco, @Descricao, @DataLancamento, @ClassificacaoId, @TipoId, @AssinaturaId)";
                         var cmdJogo = new SqlCommand(queryJogo, conn, transaction);
@@ -79,22 +73,21 @@ namespace AppGameTito.Services
                         
                         int novoJogoId = (int)cmdJogo.ExecuteScalar();
 
-                        // 2. Insere as categorias na tabela JOGO_CATEGORIA
                         foreach (var categoriaId in novoJogo.CategoriasIds)
                         {
-                            string queryCategoria = "INSERT INTO JOGO_CATEGORIA (jogo_id, categoria_id) VALUES (@JogoId, @CategoriaId)";
+                            string queryCategoria = "INSERT INTO jogo_categoria (jogo_id, categoria_id) VALUES (@JogoId, @CategoriaId)";
                             var cmdCategoria = new SqlCommand(queryCategoria, conn, transaction);
                             cmdCategoria.Parameters.AddWithValue("@JogoId", novoJogoId);
                             cmdCategoria.Parameters.AddWithValue("@CategoriaId", categoriaId);
                             cmdCategoria.ExecuteNonQuery();
                         }
 
-                        transaction.Commit(); // Confirma as alterações se tudo deu certo
+                        transaction.Commit();
                         return true;
                     }
                     catch
                     {
-                        transaction.Rollback(); // Desfaz tudo se deu algum erro
+                        transaction.Rollback();
                         return false;
                     }
                 }
