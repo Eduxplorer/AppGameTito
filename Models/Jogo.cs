@@ -11,6 +11,6 @@ namespace AppGameTito.Models
         public int TipoId { get; set; }
         public int AssinaturaId { get; set; }
         // Usaremos esta lista para enviar os IDs das categorias selecionadas
-        public List<int> CategoriasIds { get; set; } = new List<int>();
+        public List<int> CategoriasIds { get; set; } = new List<int>();   
     }
 }
